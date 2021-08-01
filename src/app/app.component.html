@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-1">
       <div class="mt-4 d-flex justify-content-start">
-        <div [ngClass]="_handleTaskListCss()">
+        <div class="btn-group">
             <div *ngFor="let b of buttons" class="wrapper">
              <span class="dot" style="background-color:{{b.id}}" (click)="_handleFilter(b.name)" [class.active]="filterBy===b.name" title="{{b.name}}">
             <i class="icon-remove icon-remove-active" visible="" (click)="_handleDeleteList(b.id)"></i></span>
