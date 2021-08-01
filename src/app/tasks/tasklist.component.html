@@ -1,0 +1,90 @@
+<div *ngFor="let t of values">
+  <div class="card m-1">
+    <div class="m-0">
+      <div class="input-group ">
+        <input
+          [style.background-color]="t.isCompleted === false ? 'white' : '#D3D3D3'"
+          class="m-0 form-control border border-white"
+          [ngClass]="getPrio(t.prio)"
+          [style.textDecorationLine]="t.isCompleted == false ? '':'line-through'"
+          [(ngModel)]="t.task"
+        />
+        <!-- <button class="btn btn-danger floatRt m-1" (click)="_handleDelete(t)"> -->
+        <i
+          class="icon-trash m-2 mt-2 text-danger"
+          (click)="_handleDelete(t)"
+        ></i>
+        <!-- </button> -->
+        <!-- <button
+             class="btn btn-primary floatRt m-1"
+             (click)="_handleCompleted(t.id)"
+             > -->
+        <i
+          [ngClass]="getClasses(t.isCompleted)"
+          [style.color]="t.isCompleted == false ? 'black':'#2b2b2b'"
+          class="m-2 mt-2"
+          (click)="_handleCompleted(t.id)"
+        ></i>
+        <!-- </button> -->
+        <!-- <button
+             class="btn btn-primary floatRt m-1"
+             type="button"
+             data-toggle="dropdown"
+             aria-haspopup="true"
+             aria-expanded="false"
+             > -->
+        <i
+          class="icon-ellipsis-vertical m-2 mt-2"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        ></i>
+        <!-- </button> -->
+        <div class="dropdown-menu">
+          <div class="container">
+            <input type="date" class="form-control" [(ngModel)]="t.date" />
+          </div>
+          <div role="separator" class="dropdown-divider"></div>
+          <a class="dropdown-item">Postpone</a>
+          <div role="separator" class="dropdown-divider"></div>
+          <div
+            style="  
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+                "
+          >
+            <label style="color: grey; float: left; margin: 10px;"
+              >Priority</label
+            >
+            <br /><br />
+            <a
+              style="color: red;margin: 10px;cursor: pointer;"
+              title="High"
+              (click)="_handlePrio(t, 1)"
+              >!!!</a
+            >
+            <a
+              style="color: orange;margin: 10px;cursor: pointer;"
+              title="Medium"
+              (click)="_handlePrio(t, 2)"
+              >!!</a
+            >
+            <a
+              style="color: green;margin: 10px;cursor: pointer;"
+              title="Low"
+              (click)="_handlePrio(t, 3)"
+              >!</a
+            >
+            <a
+              style="color: grey;margin: 10px;cursor: pointer;"
+              title="Not Priority"
+              (click)="_handlePrio(t, null)"
+              >!!!</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

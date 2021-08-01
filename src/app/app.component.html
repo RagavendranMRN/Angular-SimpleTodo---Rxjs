@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-1">
+      <div class="mt-4 d-flex justify-content-start">
+        <div [ngClass]="_handleTaskListCss()">
+            <div *ngFor="let b of buttons" class="wrapper">
+             <span class="dot" style="background-color:{{b.id}}" (click)="_handleFilter(b.name)" [class.active]="filterBy===b.name" title="{{b.name}}">
+            <i class="icon-remove icon-remove-active" visible="" (click)="_handleDeleteList(b.id)"></i></span>
+            <span class="DeleteList" >
+
+  </span>
+          </div>
+          <i class="icon-plus pl-2 mt-1"  data-toggle="dropdown" ></i>
+
+          <div class="dropdown-menu">
+            <div class="container">
+              <form [formGroup]="ColorPicker">
+                <input type="text" formControlName= "name" class="form-control mb-2" placeholder="Name"
+      />
+                <input formControlName="colorcode" type="color"  class="form-control mb-2 p-0 m-0"/>
+                <button class="btn btn-primary float-right" (click)="_handleTagListCreation()" >Create</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-11">
+      <h5 class="m-4">Simple Todo</h5>
+      <div class="m-2">
+        <div class="input-group ">
+          <input
+      [(ngModel)]="newTask"
+      type="text"
+      id="taskData"
+      class="form-control"
+      onblur="this.value=''"
+      placeholder="Add task to {{filterBy}} Press Enter to save"
+      (keydown.enter)="_handleTaskAdd()"
+      required="required"
+  />
+          <button tyoe="sumbit" class="form-control" class="btn btn-primary" (click)="_handleTaskAdd()"><i class="icon-ok-sign "></i> </button>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <task-list [values]=Filteredtasks (liftValue)="_handleDeleteTask($event)"
+          (liftDelValue)="_handleCompletedTask($event)" (liftPrio)="_handlePriortiyTask($event)">
+        </task-list>
+      </div>
+    </div>
+  </div>
+</div>
