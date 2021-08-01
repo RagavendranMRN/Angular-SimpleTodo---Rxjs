@@ -1,6 +1,8 @@
 import { Component, VERSION, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { TaskService } from './TaskService.service';
 
 @Component({
   selector: 'my-app',
@@ -32,7 +34,7 @@ export class AppComponent {
   filterBy: String = 'Primary';
   ColorPicker: FormGroup;
 
-  constructor() {}
+  constructor(private taskSer: TaskService) {}
 
   ngOnInit() {
     console.log(window.innerWidth <= 800 && window.innerHeight <= 600);
@@ -52,6 +54,7 @@ export class AppComponent {
   }
   // prio 1-High,2- Medium, 3 - Low
   _handleTaskAdd() {
+    this.taskSer.rangeValueChange(1);
     if (this.newTask) {
       let Taskobj = {
         id: this.tasks.length,
