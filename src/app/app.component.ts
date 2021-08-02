@@ -50,6 +50,10 @@ export class AppComponent {
         v => v.tags === this.filterBy
       );
     });
+    this.taskSer.filterObs.subscribe(res => {
+      this.Filteredtasks = res;
+      this.tasks = res;
+    });
   }
 
   _handleTaskListCss() {
@@ -87,13 +91,7 @@ export class AppComponent {
   };
 
   _handleFilter = filterz => {
-    // this.filterBy = filterz;
-
-    // this.Filteredtasks = this.taskSer.dataStream.filter(
-    //   v => v.tags === filterz
-    // );
-
-    // console.log(this.Filteredtasks);
+    this.filterBy = filterz;
     this.taskSer.filterChange(filterz);
   };
 
