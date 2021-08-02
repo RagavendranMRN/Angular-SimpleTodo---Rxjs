@@ -1,6 +1,6 @@
 import { Component, VERSION, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { filter, map } from 'rxjs/operators';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { TaskService } from './TaskService.service';
 
@@ -44,6 +44,12 @@ export class AppComponent {
       name: name,
       colorcode: colorcode
     });
+    this.taskSer.rangeObs.subscribe(res => {
+      this.tasks = res;
+      this.Filteredtasks = this.taskSer.dataStream.filter(
+        v => v.tags === this.filterBy
+      );
+    });
   }
 
   _handleTaskListCss() {
@@ -54,7 +60,6 @@ export class AppComponent {
   }
   // prio 1-High,2- Medium, 3 - Low
   _handleTaskAdd() {
-    this.taskSer.rangeValueChange(1);
     if (this.newTask) {
       let Taskobj = {
         id: this.tasks.length,
@@ -65,14 +70,14 @@ export class AppComponent {
         isCompleted: false,
         tags: this.filterBy
       };
-      this.tasks.push(Taskobj);
-      this._handleFilter(this.filterBy);
+      this.taskSer.rangeValueChange(Taskobj);
+      // this.tasks.push(Taskobj);
+      // this._handleFilter(this.filterBy);
       this.newTask = null;
     }
   }
   _handleDeleteTask = value => {
-    this.tasks = this.tasks.filter(v => v !== value);
-    this._handleFilter(this.filterBy);
+    this.taskSer.rangeValueDelete(value);
   };
   _handleCompletedTask = value => {
     let index = this.tasks.findIndex(v => v.id == value);
@@ -81,14 +86,25 @@ export class AppComponent {
     this._handleFilter(this.filterBy);
   };
 
-  _handleFilter = filter => {
-    this.filterBy = filter;
-    this.Filteredtasks = this.tasks.filter(v => v.tags === filter);
+  _handleFilter = filterz => {
+    // this.filterBy = filterz;
 
-    this.Filteredtasks = this.Filteredtasks.sort(
-      (x, y) => Number(x.isCompleted) - Number(y.isCompleted)
-    );
+    // this.Filteredtasks = this.taskSer.dataStream.filter(
+    //   v => v.tags === filterz
+    // );
+
+    // console.log(this.Filteredtasks);
+    this.taskSer.filterChange(filterz);
   };
+
+  // _handleFilter = filter => {
+  //   this.filterBy = filter;
+  //   this.Filteredtasks = this.tasks.filter(v => v.tags === filter);
+
+  //   this.Filteredtasks = this.Filteredtasks.sort(
+  //     (x, y) => Number(x.isCompleted) - Number(y.isCompleted)
+  //   );
+  // };
 
   _handlePriortiyTask = ChangedPrio => {
     let index = this.tasks.findIndex(v => v.id == ChangedPrio.id);
